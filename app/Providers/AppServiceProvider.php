@@ -27,6 +27,8 @@ class AppServiceProvider extends ServiceProvider
     {
         if (env('APP_DEBUG')) {
             $this->app->register('VIACreative\SudoSu\ServiceProvider');
+            $this->app->register('Barryvdh\Debugbar\ServiceProvider');
+
         }
     }
 }
