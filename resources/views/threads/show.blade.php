@@ -6,7 +6,7 @@
             <div class="col-md-8 col-md-offset-2">
                 <div class="card">
                     <div class="card-header">
-                        <a href="#">{{ $thread->creator->name }}</a>发表了:
+                        <a href="{{ route('profile',$thread->creator) }}">{{ $thread->creator->name }}</a>发表了:
                         {{ $thread->title }}
                     </div>
 
