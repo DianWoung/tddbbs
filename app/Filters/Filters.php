@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 abstract class Filters
 {
     protected $request,$builder;
-    protected $filters;
+    protected $filters = [];
 
     public function __construct(Request $request)
     {
