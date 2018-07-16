@@ -10,8 +10,15 @@
                 <small>注册于{{ $profileUser->created_at->diffForHumans() }}</small>
             </h1>
         </div>
+         @foreach($activities as $date => $activity)
+                    <h3 class="page-header">{{ $date }}</h3>
+                @foreach($activity as $record)
+                        @include("profiles.activities._{$record->type}", ['activity' => $record])
+                    @endforeach
 
-        @foreach($threads as $thread)
+         @endforeach
+
+         @foreach($threads as $thread)
             <div class="card">
                 <div class="card-header">
                     <div class="level">
