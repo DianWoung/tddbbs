@@ -24,9 +24,9 @@ abstract class TestCase extends BaseTestCase
 
         $this->disableExceptionHandling();
         $this->channel = factory('App\Channel')->create();
-        $this->thread = factory('App\Thread')->create(['channel_id' => $this->channel]);
-        $this->reply = factory('App\Reply')->create();
         $this->user = factory('App\User')->create();
+        $this->thread = factory('App\Thread')->create(['channel_id' => $this->channel->id]);
+        $this->reply = factory('App\Reply')->create();
     }
 
     protected function signIn($user = null)

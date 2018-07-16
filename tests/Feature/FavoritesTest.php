@@ -12,7 +12,6 @@ class FavoritesTest extends TestCase
     public function an_authenticated_user_can_favorite_any_reply()
     {
         $this->signIn();
-
         try {
             $this->post('replies/' . $this->reply->id . '/favorites');
         }catch (\Exception $e){
