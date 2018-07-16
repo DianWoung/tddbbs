@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Activity;
 use Tests\TestCase;
 
 class CreateThreadsTest extends TestCase
@@ -58,16 +59,6 @@ class CreateThreadsTest extends TestCase
         ->assertSessionHasErrors('channel_id');
     }
 
-    public function a_thread_can_be_deleted()
-    {
-        $this->signIn();
-
-        $this->json('DELETE', $this->thread->path());
-
-        $this->assertDatabaseMissing('threads', $this->thread->toArray());
-    }
-
-
     public function publishThread($overrides = [])
     {
         $this->withExceptionHandling()->signIn();
@@ -103,5 +94,17 @@ class CreateThreadsTest extends TestCase
 
         $this->assertDatabaseMissing('threads',['id' => $thread->id]);
         $this->assertDatabaseMissing('replies',['id' => $reply->id]);
+
+        $this->assertDatabaseMissing('activities',[
+            'subject_id' => $thread->id,
+            'subject_type' => get_class($thread)
+        ]);
+
+        $this->assertDatabaseMissing('activities',[
+            'subject_id' => $reply->id,
+            'subject_type' => get_class($reply)
+        ]);
+
+        $this->assertEquals(0, Activity::count());
     }
 }
