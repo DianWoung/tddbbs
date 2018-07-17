@@ -33,6 +33,8 @@
         <main class="py-4">
             @yield('content')
         </main>
+
+        <flash message="{{ session('flash') }}"></flash>
     </div>
     @if (env('APP_DEBUG'))
         @include('sudosu::user-selector')
