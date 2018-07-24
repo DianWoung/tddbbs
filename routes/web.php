@@ -33,5 +33,5 @@ Route::post('/replies/{reply}/favorites', 'FavoritesController@store');
 
 //用户模型
 Route::get('/profiles/{user}', 'ProfilesController@show')->name('profile');
-
+Route::patch('/replies/{reply}','ReplyController@update');
 Route::delete('/replies/{reply}', 'ReplyController@destroy');
