@@ -30,7 +30,7 @@ Route::post('/threads/{channel}/{thread}/replies','ReplyController@store')->name
 Route::delete('threads/{channel}/{thread}', 'ThreadController@destroy');
 
 Route::post('/replies/{reply}/favorites', 'FavoritesController@store');
-
+Route::delete('/replies/{reply}/favorites', 'FavoritesController@destroy');
 //用户模型
 Route::get('/profiles/{user}', 'ProfilesController@show')->name('profile');
 Route::patch('/replies/{reply}','ReplyController@update');

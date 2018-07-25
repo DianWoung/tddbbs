@@ -27,4 +27,15 @@ class FavoritesTest extends TestCase
             ->post('/replies/1/favorites')
             ->assertRedirect('/login');
     }
+
+    /** @test */
+    public function an_authenticated_user_can_unfavorite_a_reply()
+    {
+        $this->signIn();
+        $this->reply->favorite();
+
+        $this->delete('replies/' . $this->reply->id . '/favorites');
+
+        $this->assertCount(0, $this->reply->favorites);
+    }
 }

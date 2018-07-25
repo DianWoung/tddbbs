@@ -17,7 +17,8 @@
                         @include("profiles.activities._{$record->type}", ['activity' => $record])
                     @endif
                  @endforeach
-
+             @empty
+                 <p>There is no activity for this user yet.</p>
          @endforeach
 
          @foreach($threads as $thread)
