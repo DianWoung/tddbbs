@@ -50,7 +50,7 @@
         },
         computed: {
                 signIn() {
-                    return window.App.signIn;
+                    return window.App.signedIn;
                 },
                 canUpdate() {
                     return this.authorize(user =>this.data.user_id == user.id);
