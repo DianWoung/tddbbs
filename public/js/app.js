@@ -64585,7 +64585,7 @@ exports = module.exports = __webpack_require__(4)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -64646,6 +64646,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             this.dataSet = data;
             this.items = data.data;
+
+            window.scrollTo(0, 0);
         },
         add: function add(reply) {
             this.items.push(reply);
@@ -64755,8 +64757,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 
@@ -64772,7 +64772,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     computed: {
-        signIn: function signIn() {
+        signedIn: function signedIn() {
             return window.App.signedIn;
         },
         canUpdate: function canUpdate() {
@@ -65268,9 +65268,12 @@ var render = function() {
             domProps: { textContent: _vm._s(_vm.data.owner.name) }
           }),
           _vm._v("said "),
-          _c("span", { domProps: { textContent: _vm._s(_vm.ago) } }),
-          _vm._v("...\n            ")
-        ])
+          _c("span", { domProps: { textContent: _vm._s(_vm.ago) } })
+        ]),
+        _vm._v(" "),
+        _vm.signedIn
+          ? _c("div", [_c("favorite", { attrs: { reply: _vm.data } })], 1)
+          : _vm._e()
       ])
     ]),
     _vm._v(" "),
@@ -65645,10 +65648,7 @@ var render = function() {
         on: { changed: _vm.fetch }
       }),
       _vm._v(" "),
-      _c("new-reply", {
-        attrs: { endpoint: _vm.endpoint },
-        on: { created: _vm.add }
-      })
+      _c("new-reply", { on: { created: _vm.add } })
     ],
     2
   )

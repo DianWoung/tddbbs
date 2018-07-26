@@ -4,7 +4,7 @@
             <reply :data="reply" @deleted="remove(index)"></reply>
         </div>
         <paginator :dataSet="dataSet" @changed="fetch"></paginator>
-        <new-reply :endpoint="endpoint" @created="add"></new-reply>
+        <new-reply @created="add"></new-reply>
     </div>
 </template>
 
@@ -41,6 +41,8 @@
             refresh({data}) {
                this.dataSet = data;
                this.items = data.data;
+
+                window.scrollTo(0,0);
             },
 
             add(reply){

@@ -5,14 +5,12 @@
                 <h5 class="flex">
                     <a :href="'/profiles/'+data.owner.name"
                        v-text="data.owner.name">
-                    </a>said <span v-text="ago"></span>...
+                    </a>said <span v-text="ago"></span>
                 </h5>
 
-                <!--@if(Auth::check())-->
-                <!--<div>-->
-                <!--<favorite :reply="{{ $reply }}"></favorite>-->
-                <!--</div>-->
-                <!--@endif-->
+                <div v-if="signedIn">
+                <favorite :reply="data"></favorite>
+                </div>
             </div>
         </div>
 
@@ -50,7 +48,7 @@
             }
         },
         computed: {
-                signIn() {
+                signedIn() {
                     return window.App.signedIn;
                 },
                 canUpdate() {
