@@ -14,6 +14,13 @@ try {
     require('bootstrap');
     window.Vue = require('vue');
 
+    Vue.prototype.authorize = function(hander) {
+
+        let user = window.App.user;
+        if (!user) return false;
+        return hander(user);
+    };
+
     window.events = new Vue();
 
     window.flash = function (message) {

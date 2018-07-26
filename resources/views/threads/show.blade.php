@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    <thread-view :initial-replies-count="{{ $thread->replies_count }}" inline-template>
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
@@ -30,14 +31,14 @@
                 </div>
             </div>
 
+            <replies :data="{{ $thread->replies }}" @removed="repliesCount--"></replies>
+            {{--<div class="col-md-8 col-md-offset-2">--}}
+                {{--@foreach ($replies as $reply)--}}
+                    {{--@include('threads._reply')--}}
+                {{--@endforeach--}}
 
-            <div class="col-md-8 col-md-offset-2">
-                @foreach ($replies as $reply)
-                    @include('threads._reply')
-                @endforeach
-
-                {{ $replies->links() }}
-            </div>
+                {{--{{ $replies->links() }}--}}
+            {{--</div>--}}
 
         @if(auth()->check())
 
@@ -62,10 +63,11 @@
             <div class="card-body">
                 <p>
                     <a href="#">{{ $thread->creator->name }}</a> 发布于 {{ $thread->created_at->diffForHumans() }},
-                    当前共有 {{ $thread->replies_count }} 个回复。
+                    当前共有 <span v-text="repliesCount"></span>个回复。
                 </p>
             </div>
             </div>
         </div>
     </div>
+</thread-view>
 @endsection
