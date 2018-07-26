@@ -29,10 +29,10 @@
                         {{ $thread->body }}
                     </div>
                 </div>
-            </div>
+
 
             <replies @added="repliesCount++" @removed="repliesCount--"></replies>
-
+            </div>
             <div class="col-md-4">
             <div class="card">
             <div class="card-body">

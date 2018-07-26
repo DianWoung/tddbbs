@@ -1,5 +1,5 @@
 <template>
-    <div :id="'reply'+id" class="card">
+    <div :id="'reply'+id" class="card" style="margin-top: 21px">
         <div class="card-header">
             <div class="level">
                 <h5 class="flex">
