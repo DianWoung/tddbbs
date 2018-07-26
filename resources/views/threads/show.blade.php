@@ -31,8 +31,17 @@
                 </div>
             </div>
 
-            <replies :data="{{ $thread->replies }}" @added="repliesCount++" @removed="repliesCount--"></replies>
+            <replies @added="repliesCount++" @removed="repliesCount--"></replies>
 
+            <div class="col-md-4">
+            <div class="card">
+            <div class="card-body">
+                <p>
+                    <a href="#">{{ $thread->creator->name }}</a> 发布于 {{ $thread->created_at->diffForHumans() }},
+                    当前共有 <span v-text="repliesCount"></span>个回复。
+                </p>
+            </div>
+            </div>
         </div>
     </div>
 </thread-view>
