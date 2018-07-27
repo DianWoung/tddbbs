@@ -1,7 +1,3 @@
-<template>
-    
-</template>
-
 <script>
     import Replies from '../components/Replies';
     export default {
@@ -14,7 +10,3 @@
         }
     }
 </script>
-
-<style scoped>
-
-</style>

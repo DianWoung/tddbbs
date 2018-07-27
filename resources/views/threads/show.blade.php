@@ -9,6 +9,7 @@
                     <div class="card-header">
                         <div class="level">
                         <h5 class="flex">
+                            <p id="test"></p>
                         <a href="{{ route('profile',$thread->creator) }}">{{ $thread->creator->name }}</a>发表了:
                         {{ $thread->title }}
                         @can('update',$thread)
@@ -41,6 +42,7 @@
                     当前共有 <span v-text="repliesCount"></span>个回复。
                 </p>
             </div>
+
             </div>
         </div>
     </div>
