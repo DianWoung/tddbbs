@@ -19,8 +19,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+//文章模块
 Route::get('threads','ThreadController@index');
-
 Route::get('threads/create','ThreadController@create');
 Route::get('threads/{channel}/{thread}','ThreadController@show');
 Route::post('threads','ThreadController@store');
@@ -28,10 +28,18 @@ Route::get('threads/{channel}','ThreadController@index');
 Route::post('/threads/{channel}/{thread}/replies','ReplyController@store')->name('threads.reply.store');
 Route::get('/threads/{channel}/{thread}/replies','ReplyController@index')->name('threads.reply.index');
 Route::delete('threads/{channel}/{thread}', 'ThreadController@destroy');
-
+//评论模块
 Route::post('/replies/{reply}/favorites', 'FavoritesController@store');
 Route::delete('/replies/{reply}/favorites', 'FavoritesController@destroy');
-//用户模型
-Route::get('/profiles/{user}', 'ProfilesController@show')->name('profile');
+
 Route::patch('/replies/{reply}','ReplyController@update');
 Route::delete('/replies/{reply}', 'ReplyController@destroy');
+
+//用户模块
+Route::get('/profiles/{user}', 'ProfilesController@show')->name('profile');
+
+//订阅模块
+Route::post('/threads/{channel}/{thread}/subscriptions','ThreadSubscriptionsController@store')
+        ->middleware('auth');
+Route::delete('/threads/{channel}/{thread}/subscriptions','ThreadSubscriptionsController@destroy')
+        ->middleware('auth');

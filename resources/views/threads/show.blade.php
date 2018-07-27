@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <thread-view :initial-replies-count="{{ $thread->replies_count }}" inline-template>
+<thread-view :initial-replies-count="{{ $thread->replies_count }}" inline-template>
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
@@ -9,7 +9,6 @@
                     <div class="card-header">
                         <div class="level">
                         <h5 class="flex">
-                            <p id="test"></p>
                         <a href="{{ route('profile',$thread->creator) }}">{{ $thread->creator->name }}</a>发表了:
                         {{ $thread->title }}
                         @can('update',$thread)
@@ -41,8 +40,11 @@
                     <a href="#">{{ $thread->creator->name }}</a> 发布于 {{ $thread->created_at->diffForHumans() }},
                     当前共有 <span v-text="repliesCount"></span>个回复。
                 </p>
-            </div>
 
+                <p>
+                    <subscribe-button :active="{{ json_encode($thread->isSubscribedTo) }}"></subscribe-button>
+                </p>
+            </div>
             </div>
         </div>
     </div>
