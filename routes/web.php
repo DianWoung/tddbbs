@@ -37,7 +37,8 @@ Route::delete('/replies/{reply}', 'ReplyController@destroy');
 
 //用户模块
 Route::get('/profiles/{user}', 'ProfilesController@show')->name('profile');
-
+Route::get('/profiles/{user}/notifications','UserNotificationsController@index');
+Route::delete('/profiles/{user}/notifications/{notification}','UserNotificationsController@destroy');
 //订阅模块
 Route::post('/threads/{channel}/{thread}/subscriptions','ThreadSubscriptionsController@store')
         ->middleware('auth');
