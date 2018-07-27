@@ -18,6 +18,7 @@ window.Vue = require('vue');
 Vue.component('flash', require('./components/Flash'));
 Vue.component('paginator', require('./components/Paginator'));
 Vue.component('thread-view', require('./pages/Thread'));
+Vue.component('user-notifications', require('./components/UserNotifications'));
 
 const app = new Vue({
     el: '#app'
