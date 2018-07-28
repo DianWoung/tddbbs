@@ -2,9 +2,9 @@
 
 namespace App;
 
+use App\Events\ThreadHasNewReply;
 use App\Traits\RecordsActivity;
 use Illuminate\Database\Eloquent\Model;
-use App\Notifications\ThreadWasUpdated;
 
 class Thread extends Model
 {
@@ -41,13 +41,19 @@ class Thread extends Model
     public function addReply($reply)
     {
       $reply = $this->replies()->create($reply);
-
-      $this->subscriptions->filter(function ($sub) use ($reply){
-          return $sub->user_id != $reply->user_id;
-          })
-          ->each->notify($reply);
-
+        //使用事件模型
+     // event(new ThreadHasNewReply($this, $reply));
+        //使用自身方法
+      $this->notifySubscribers($reply);
       return $reply;
+    }
+
+    public function notifySubscribers($reply)
+    {
+        $this->subscriptions
+            ->where('user_id','!=',$reply->user_id)
+            ->each
+            ->notify($reply);
     }
 
     public function channel()
@@ -102,4 +108,5 @@ class Thread extends Model
                     ->where('user_id', auth()->id())
                     ->exists();
     }
+
 }
