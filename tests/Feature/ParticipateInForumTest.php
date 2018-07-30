@@ -92,5 +92,18 @@ class ParticipateInForumTest extends TestCase
     }
 
     /** @test */
+    public function replies_contain_spam_may_not_be_created()
+    {
+        $this->signIn();
+
+        $thread = create('App\Thread');
+        $reply = make('App\Reply',[
+            'body' => 'something forbidden'
+        ]);
+
+        $this->expectException(\Exception::class);
+
+        $this->post($thread->path() . '/replies',$reply->toArray());
+    }
 
 }
