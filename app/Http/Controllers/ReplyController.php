@@ -41,20 +41,23 @@ class ReplyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store($channelId, Thread $thread, Spam $spam)
+    public function store($channelId, Thread $thread)
     {
+       try{
+
+
         $this->validateReply();
 
         $reply = $thread->addReply([
            'body' => \request('body'),
            'user_id' => auth()->id(),
         ]);
-
-        if (\request()->expectsJson()){
-            return $reply->load('owner');
-        }
-
-        return back()->with('flash','Your reply has been left.');
+       }catch (\Exception $exception){
+           return response(
+               'sorry, your reply could not be saved', 422
+           );
+       }
+        return $reply->load('owner');
     }
 
     /**
@@ -89,10 +92,16 @@ class ReplyController extends Controller
     public function update(Request $request, Reply $reply)
     {
         $this->authorize('update', $reply);
+        try{
+            $this->validateReply();
 
-        $this->validateReply();
+            $reply->update(\request(['body']));
+        }catch (\Exception $exception){
+            return response(
+                'Sorry, your reply could not be saved', 422
+            );
+        }
 
-        $reply->update(\request(['body']));
     }
 
     /**
