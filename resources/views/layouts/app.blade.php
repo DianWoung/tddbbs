@@ -19,6 +19,13 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <script>
+        window.App = {!! json_encode([
+    'csrfToken' => csrf_token(),
+    'user' => Auth::user(),
+    'signedIn' => Auth::check()
+    ])!!};
+    </script>
 
 </head>
 <body style="padding-bottom: 100px">
@@ -35,12 +42,6 @@
         @include('sudosu::user-selector')
     @endif
 
-<script>
-    window.App = {!! json_encode([
-    'csrfToken' => csrf_token(),
-    'user' => Auth::user(),
-    'signedIn' => Auth::check()
-    ])!!};
-</script>
+
 </body>
 </html>

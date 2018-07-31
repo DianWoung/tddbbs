@@ -93,14 +93,15 @@ class ParticipateInForumTest extends TestCase
     /** @test */
     public function replies_contain_spam_may_not_be_created()
     {
-        $this->signIn();
+        $this->withExceptionHandling()->signIn();
 
         $thread = create('App\Thread');
+
         $reply = make('App\Reply',[
             'body' => 'something forbidden'
         ]);
 
-        $this->post($thread->path() . '/replies',$reply->toArray())
+        $this->json('post',$thread->path() . '/replies',$reply->toArray())
             ->assertStatus(422);
     }
 
@@ -119,7 +120,7 @@ class ParticipateInForumTest extends TestCase
             ->assertStatus(201);
 
         $this->post($thread->path() . '/replies',$reply->toArray())
-            ->assertStatus(422);
+            ->assertStatus(429);
     }
 
 }
