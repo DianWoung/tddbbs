@@ -7,6 +7,7 @@ use App\Reply;
 use App\Inspections\Spam;
 use App\Thread;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class ReplyController extends Controller
 {
@@ -43,15 +44,19 @@ class ReplyController extends Controller
      */
     public function store($channelId, Thread $thread)
     {
+        if (Gate::denies('create',new Reply())){
+            return response(
+                'You are posting too frequently', 422
+            );
+        }
+        $this->validate(request(),['body' => 'required|spamfree']);
        try{
-
-
-        $this->validateReply();
 
         $reply = $thread->addReply([
            'body' => \request('body'),
            'user_id' => auth()->id(),
         ]);
+
        }catch (\Exception $exception){
            return response(
                'sorry, your reply could not be saved', 422
@@ -93,9 +98,10 @@ class ReplyController extends Controller
     {
         $this->authorize('update', $reply);
         try{
-            $this->validateReply();
+            $this->validate(request(),['body' => 'required|spamfree']);
 
             $reply->update(\request(['body']));
+
         }catch (\Exception $exception){
             return response(
                 'Sorry, your reply could not be saved', 422
@@ -119,12 +125,5 @@ class ReplyController extends Controller
             return response(['status' => 'Reply deleted']);
         }
         return back();
-    }
-
-    protected function validateReply()
-    {
-        $this->validate(\request(), ['body' => 'required']);
-
-        resolve(Spam::class)->detect(\request('body'));
     }
 }

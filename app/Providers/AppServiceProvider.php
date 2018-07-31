@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 
 
@@ -16,6 +17,14 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
        // Carbon::setLocale('zh');
+//        \View::composer('*',function ($view){
+//            $channels = \Cache::rememberForever('channels',function (){
+//                return Channel::all();
+//            });
+//            $view->with('channels',$channels);
+//        });
+
+        Validator::extend('spamfree', 'App\Rules\SpamFree@passes');
     }
 
     /**

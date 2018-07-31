@@ -20,6 +20,15 @@ class ReplyPolicy
         //
     }
 
+    public function create(User $user)
+    {
+        if (!$lastReply = $user->fresh()->lastReply) {
+            return true;
+        }
+        $status = $lastReply->wasJustPublished();
+        return !$status;
+    }
+
     public function update(User $user, Reply $reply)
     {
         return $reply->user_id == $user->id;

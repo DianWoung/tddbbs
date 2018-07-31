@@ -4,6 +4,7 @@ namespace App;
 
 use App\Traits\Favoritable;
 use App\Traits\RecordsActivity;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Reply extends Model
@@ -40,6 +41,11 @@ class Reply extends Model
         static::deleted(function ($reply){
            $reply->thread->decrement('replies_count');
         });
+    }
+
+    public function wasJustPublished()
+    {
+        return $this->created_at->gt(Carbon::now()->subMinute());
     }
 
 }
