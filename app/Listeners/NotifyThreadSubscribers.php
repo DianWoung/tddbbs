@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\ThreadHasNewReply;
+use App\Events\ThreadReceivedNewReply;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -10,9 +10,9 @@ class NotifyThreadSubscribers
 {
 
 
-    public function handle(ThreadHasNewReply $event)
+    public function handle(ThreadReceivedNewReply $event)
     {
-        $event->thread->subscriptions
+        $event->reply->thread->subscriptions
             ->where('user_id', '!=', $event->reply->user_id)
             ->each
             ->notify($event->reply);

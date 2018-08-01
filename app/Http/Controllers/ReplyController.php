@@ -7,8 +7,10 @@ use App\Http\Requests\CreatePostForm;
 use App\Reply;
 use App\Inspections\Spam;
 use App\Thread;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use App\Notifications\YouWereMentioned;
 
 class ReplyController extends Controller
 {
@@ -45,10 +47,12 @@ class ReplyController extends Controller
      */
     public function store($channelId, Thread $thread, CreatePostForm $form)
     {
+
+
         return $thread->addReply([
-            'body' => $form->get('body'),
-            'user_id' => auth()->id(),
-             ])->load('owner');
+                    'body' => $form->get('body'),
+                    'user_id' => auth()->id(),
+                    ])->load('owner');
     }
 
     /**
@@ -83,16 +87,10 @@ class ReplyController extends Controller
     public function update(Request $request, Reply $reply)
     {
         $this->authorize('update', $reply);
-        try{
-            $this->validate(request(),['body' => 'required|spamfree']);
 
-            $reply->update(\request(['body']));
+        $this->validate(request(),['body' => 'required|spamfree']);
 
-        }catch (\Exception $exception){
-            return response(
-                'Sorry, your reply could not be saved', 422
-            );
-        }
+        $reply->update(\request(['body']));
 
     }
 
