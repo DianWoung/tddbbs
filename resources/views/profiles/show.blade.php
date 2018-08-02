@@ -5,12 +5,7 @@
         <div class="row">
             <div class="col-md-10">
         <div class="card-header">
-
-            <p id="test"></p>
-            <h1>
-                {{ $profileUser->name }}
-                <small>注册于{{ $profileUser->created_at->diffForHumans() }}</small>
-            </h1>
+            <avatar-form :user="{{ $profileUser }}"></avatar-form>
         </div>
          @forelse($activities as $date => $activity)
                     <h3 class="page-header">{{ $date }}</h3>

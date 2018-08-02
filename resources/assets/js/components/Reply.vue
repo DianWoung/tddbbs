@@ -18,7 +18,7 @@
             <div v-if="editing">
                 <form @submit.prevent="update">
                 <div class="form-group">
-                    <textarea class="form-control" v-model="body"></textarea>
+                    <textarea class="form-control" v-model="body" required></textarea>
                 </div>
 
                 <button class="btn btn-xs btn-primary">Update</button>
@@ -26,7 +26,7 @@
                 </form>
             </div>
 
-            <div v-else v-text="body"> </div>
+            <div v-else v-html="body"> </div>
         </div>
 
 

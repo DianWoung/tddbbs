@@ -12,6 +12,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="level">
+                            <img src="/storage/{{ $thread->creator->avatar_path }}" alt="{{ $thread->creator->name }}" width="25" height="25" class="mr-1">
                         <h5 class="flex">
                         <a href="{{ route('profile',$thread->creator) }}">{{ $thread->creator->name }}</a>发表了:
                         {{ $thread->title }}
