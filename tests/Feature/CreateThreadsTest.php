@@ -8,34 +8,50 @@ use Tests\TestCase;
 class CreateThreadsTest extends TestCase
 {
     /** @test */
-   public function an_authenticated_user_can_create_new_forum_threads()
-   {
-       $this->signIn();
+    public function guests_may_not_create_threads()
+    {
+        $this->withExceptionHandling();
 
-       $response = $this->post('/threads', $this->thread->toArray());
+        $this->get('/threads/create')
+            ->assertRedirect(route('login')); // 应用路由命名
 
-       $this->get($response->headers->get('Location'))
-           ->assertSee($this->thread->title)
-           ->assertSee($this->thread->body);
-   }
+        $this->post(route('threads')) // 应用路由命名
+        ->assertRedirect(route('login')); // 应用路由命名
+    }
 
-   /** @test */
-   public function guests_may_not_create_threads()
-   {
-       $this->withExceptionHandling();
+    // 修改测试命名，更加辨识度
+    /** @test */
+    public function new_users_must_first_confirm_their_email_address_before_creating_threads()
+    {
+        // 调用 unconfirmed，生成未认证用户
+        $user = factory('App\User')->states('unconfirmed')->create();
 
-       $this->get('/threads/create')
-           ->assertRedirect('/login');
+        $this->signIn($user);
 
-       $this->post('/threads')
-           ->assertRedirect('/login');
-   }
+        $thread = make('App\Thread');
 
-   /** @test */
+        $this->post(route('threads'),$thread->toArray())
+            ->assertRedirect('/threads')
+            ->assertSessionHas('flash','You must first confirm your email address.');
+    }
+
+    // 修改测试命名，更加辨识度
+    /** @test */
+    public function a_user_can_create_new_forum_threads()
+    {
+        $this->signIn();
+
+        $thread = make('App\Thread');
+        $response = $this->post(route('threads'),$thread->toArray());// 应用路由命名
+
+        $this->get($response->headers->get('Location'))
+            ->assertSee($thread->title)
+            ->assertSee($thread->body);
+    }
+
+    /** @test */
     public function a_thread_requires_a_title()
     {
-
-
         $this->publishThread(['title' => null])
             ->assertSessionHasErrors('title');
     }
@@ -59,25 +75,17 @@ class CreateThreadsTest extends TestCase
         ->assertSessionHasErrors('channel_id');
     }
 
-    public function publishThread($overrides = [])
-    {
-        $this->withExceptionHandling()->signIn();
-
-        $thread = make('App\Thread', $overrides);
-
-        return $this->post('/threads', $thread->toArray());
-    }
-
     /** @test */
     public function unauthorized_users_may_not_delete_threads()
     {
         $this->withExceptionHandling();
 
-        $this->delete($this->thread->path())->assertRedirect('/login');
+        $thread = create('App\Thread');
+
+        $this->delete($thread->path())->assertRedirect(route('login')); // 应用路由命名
 
         $this->signIn();
-
-        $this->delete($this->thread->path())->assertStatus(403);
+        $this->delete($thread->path())->assertStatus(403);
     }
 
     /** @test */
@@ -95,26 +103,15 @@ class CreateThreadsTest extends TestCase
         $this->assertDatabaseMissing('threads',['id' => $thread->id]);
         $this->assertDatabaseMissing('replies',['id' => $reply->id]);
 
-        $this->assertDatabaseMissing('activities',[
-            'subject_id' => $thread->id,
-            'subject_type' => get_class($thread)
-        ]);
-
-        $this->assertDatabaseMissing('activities',[
-            'subject_id' => $reply->id,
-            'subject_type' => get_class($reply)
-        ]);
-
-        $this->assertEquals(0, Activity::count());
+        $this->assertEquals(0,Activity::count());
     }
 
-
-
-    /** @test */
-    public function authenticated_users_must_first_confirm_their_email_address_before_creating_threads()
+    public function publishThread($overrides = [])
     {
-        $this->publishThread()
-            ->assertRedirect('/threads')
-            ->assertSessionHas('flash','You must first confirm your email address.');
+        $this->withExceptionHandling()->signIn();
+
+        $thread = make('App\Thread',$overrides);
+
+        return $this->post(route('threads'),$thread->toArray()); // 应用路由命名
     }
 }

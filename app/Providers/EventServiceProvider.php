@@ -18,9 +18,9 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\NotifyMentionedUsers',
             'App\Listeners\NotifyThreadSubscribers',
         ],
-        Registered::class => [
-            'App\Listeners\SendEmailConfirmationRequest'
-        ],
+//        Registered::class => [
+//            'App\Listeners\SendEmailConfirmationRequest'
+//        ],
     ];
 
     /**
