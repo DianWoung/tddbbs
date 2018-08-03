@@ -19,11 +19,13 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/register/confirm','Api\RegisterConfirmationController@index');
 //文章模块
 Route::get('threads','ThreadController@index');
 Route::get('threads/create','ThreadController@create');
 Route::get('threads/{channel}/{thread}','ThreadController@show');
-Route::post('threads','ThreadController@store');
+Route::post('threads','ThreadController@store')->middleware('must_be_confirmed');
 Route::get('threads/{channel}','ThreadController@index');
 Route::post('/threads/{channel}/{thread}/replies','ReplyController@store')->name('threads.reply.store');
 Route::get('/threads/{channel}/{thread}/replies','ReplyController@index')->name('threads.reply.index');

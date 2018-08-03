@@ -27,6 +27,16 @@ class User extends Authenticatable
         'password', 'remember_token', 'email'
     ];
 
+    protected $casts = [
+        'confirmed' => 'boolean'
+    ];
+
+    public function confirm()
+    {
+        $this->confirmed = true;
+        $this->save();
+    }
+
     public function getAvatarPathAttribute($avatar)
     {
         return $avatar?: 'avatars/default.jpeg';
