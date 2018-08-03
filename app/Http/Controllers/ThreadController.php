@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Filters\ThreadsFilters;
 use App\Thread;
+use App\Trending;
 use Illuminate\Http\Request;
 use App\Channel;
+use Illuminate\Support\Facades\Redis;
 
 class ThreadController extends Controller
 {
@@ -29,7 +31,9 @@ class ThreadController extends Controller
             return $threads;
         }
 
-        return view('threads.index', compact('threads'));
+        $trending = (new Trending())->get();
+
+        return view('threads.index', compact('threads', 'trending'));
     }
 
     protected function getThreads(Channel $channel, ThreadsFilters $filters)
@@ -89,6 +93,8 @@ class ThreadController extends Controller
         if (auth()->check()) {
             auth()->user()->read($thread);
         }
+
+        (new Trending())->push($thread);
         
         return view('threads.show', compact('thread'));
     }
