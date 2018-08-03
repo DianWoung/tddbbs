@@ -20,7 +20,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/register/confirm','Api\RegisterConfirmationController@index')->name('register.confirm');
+Route::get('/register/confirm','Auth\RegisterConfirmationController@index')->name('register.confirm');
 //文章模块
 Route::get('threads','ThreadController@index')->name('threads');
 
