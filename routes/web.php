@@ -52,3 +52,6 @@ Route::get('/api/users', 'Api\UsersController@index');
 //用户头像
 Route::post('/api/users/{user}/avatar', 'Api\UserAvatarController@store')
     ->middleware('auth')->name('avatar');
+
+//最佳评论
+Route::post('/replies/{reply}/best', 'BestRepliesController@store')->name('best-replies.store');

@@ -1,6 +1,6 @@
 <template>
-    <div :id="'reply'+id" class="card" style="margin-top: 21px">
-        <div class="card-header">
+    <div :id="'reply'+id" class="card"  style="margin-top: 21px">
+        <div class="card-header" :class="isBest ? 'bg-success' : 'bg-light'">
             <div class="level">
                 <h5 class="flex">
                     <a :href="'/profiles/'+data.owner.name"
@@ -30,9 +30,12 @@
         </div>
 
 
-        <div class="card-footer level" v-if="canUpdate">
+        <div class="card-footer level">
+             <div v-if="canUpdate">
         <button class="btn btn-xs mr-1" @click="editReply">Edit</button>
         <button class="btn btn-xs btn-danger mr-1" @click="destroy">Delete</button>
+             </div>
+        <button class="btn btn-xs btn-default ml-a" @click="markBestReply" v-show="! isBest">Best Reply</button>
         </div>
     </div>
 </template>
@@ -46,7 +49,8 @@
             return {
                 editing: false,
                 id: this.data.id,
-                body: this.data.body
+                body: this.data.body,
+                isBest: false,
             }
         },
         computed: {
@@ -93,6 +97,10 @@
                 this.body = this.old_body_data;
                 this.old_body_data = '';
                 this.editing = false;
+            },
+
+            markBestReply() {
+                this.isBest = true;
             }
         }
     }
