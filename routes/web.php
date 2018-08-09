@@ -55,3 +55,4 @@ Route::post('/api/users/{user}/avatar', 'Api\UserAvatarController@store')
 
 //最佳评论
 Route::post('/replies/{reply}/best', 'BestRepliesController@store')->name('best-replies.store');
+Route::delete('/replies/{reply}','ReplyController@destroy')->name('replies.destroy');
