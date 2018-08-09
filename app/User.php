@@ -38,6 +38,11 @@ class User extends Authenticatable
         $this->save();
     }
 
+    public function isAdmin()
+    {
+        return in_array($this->name, ['Admin']);
+    }
+
     public function getAvatarPathAttribute($avatar)
     {
         return $avatar?: 'avatars/default.jpeg';

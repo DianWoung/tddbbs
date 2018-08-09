@@ -47,7 +47,9 @@ class ReplyController extends Controller
      */
     public function store($channelId, Thread $thread, CreatePostForm $form)
     {
-
+        if ($thread->locked) {
+            return response('Thread is Locked', 422);
+        }
 
         return $thread->addReply([
                     'body' => $form->get('body'),

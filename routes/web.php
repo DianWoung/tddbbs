@@ -31,6 +31,11 @@ Route::get('threads/{channel}','ThreadController@index');
 Route::post('/threads/{channel}/{thread}/replies','ReplyController@store')->name('threads.reply.store');
 Route::get('/threads/{channel}/{thread}/replies','ReplyController@index')->name('threads.reply.index');
 Route::delete('threads/{channel}/{thread}', 'ThreadController@destroy');
+
+
+Route::post('locked-threads/{thread}', 'LockedThreadsController@store')->name('locked-threads.store')->middleware('admin');
+Route::delete('locked-threads/{thread}', 'LockedThreadsController@destroy')->name('locked-threads.destroy')->middleware('admin');
+
 //评论模块
 Route::post('/replies/{reply}/favorites', 'FavoritesController@store');
 Route::delete('/replies/{reply}/favorites', 'FavoritesController@destroy');

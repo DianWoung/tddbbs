@@ -4,7 +4,10 @@
             <reply :reply="reply" @deleted="remove(index)"></reply>
         </div>
         <paginator :dataSet="dataSet" @changed="fetch"></paginator>
-        <new-reply @created="add"></new-reply>
+        <p v-if="$parent.locked">
+            This thread is locked
+        </p>
+        <new-reply @created="add" v-else></new-reply>
     </div>
 </template>
 
