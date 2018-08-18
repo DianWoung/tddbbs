@@ -62,3 +62,8 @@ Route::post('/api/users/{user}/avatar', 'Api\UserAvatarController@store')
 //最佳评论
 Route::post('/replies/{reply}/best', 'BestRepliesController@store')->name('best-replies.store');
 Route::delete('/replies/{reply}','ReplyController@destroy')->name('replies.destroy');
+
+//搜索
+Route::get('thread/search', 'SearchController@show');
+
+Route::view('scan', 'threads.scan');
