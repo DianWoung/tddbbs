@@ -10488,6 +10488,10 @@ body {
           align-items: center;
 }
 
+.level-item {
+  margin-right: 1em;
+}
+
 .flex {
   -webkit-box-flex: 1;
       -ms-flex: 1;

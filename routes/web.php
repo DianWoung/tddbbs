@@ -26,6 +26,7 @@ Route::get('threads','ThreadController@index')->name('threads');
 
 Route::get('threads/create','ThreadController@create');
 Route::get('threads/{channel}/{thread}','ThreadController@show');
+Route::patch('threads/{channel}/{thread}', 'ThreadController@update');
 Route::post('threads','ThreadController@store')->middleware('must_be_confirmed');
 Route::get('threads/{channel}','ThreadController@index');
 Route::post('/threads/{channel}/{thread}/replies','ReplyController@store')->name('threads.reply.store');

@@ -66,7 +66,7 @@ class ThreadController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $request->validate([
            'title' => 'required|spamfree',
            'body'  => 'required|spamfree',
            'channel_id' => 'required|exists:channels,id'
@@ -127,6 +127,8 @@ class ThreadController extends Controller
      */
     public function update($channelId, Thread $thread)
     {
+        $this->authorize('update', $thread);
+
         if (request()->has('locked')) {
             if (! auth()->user()->isAdmin()) {
                 return response('', 403);
@@ -134,6 +136,13 @@ class ThreadController extends Controller
 
             $thread->lock();
         }
+
+        $thread->update(\request()->validate([
+            'title' => 'required|spamfree',
+            'body'  => 'required|spamfree',
+        ]));
+
+        return $thread;
     }
 
     /**
