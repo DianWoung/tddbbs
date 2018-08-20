@@ -36,7 +36,6 @@ class Reply extends Model
 
         static::created(function ($reply){
             $reply->thread->increment('replies_count');
-            $reply->body = clean($reply->body, 'thread_or_reply_body');
         });
 
         static::deleted(function ($reply){
@@ -73,5 +72,10 @@ class Reply extends Model
     public function getIsBestAttribute():bool
     {
         return $this->isBest();
+    }
+
+    public function getBodyAttribute($body)
+    {
+        return clean($body);
     }
 }
